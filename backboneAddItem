@@ -1,0 +1,40 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>This name</title>
+ <script src="js/knockout-2.2.1.js"></script>      
+ <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+
+<body>
+<input data-bind="value:newName" type="text" placeholder="add item"/><input data-bind="value:lastName" type="text" placeholder="add item"/><button data-bind="click:addItem">Add</button>
+<ul data-bind="foreach: productsi" style="list-style:none;">
+  <li style="width:100%;" ><span data-bind="text:name +' &nbsp;&nbsp;&nbsp;'+lastName"></span><span data-bind="click:$root.removeItem" title="remove" style="display:inline-block; padding:2px 5px;background:red;margin-left:10px;">X</span><br></li>
+</ul>
+</body>
+<script >
+ var model={
+	products:[{'name':'Pradip','lastName':'Bhagat'},{'name':'Pradip2','lastName':'Bhagat2'},{'name':'Utter','lastName':'pradesh'}]
+}
+
+function viewModel(){
+	var self=this;
+	self.newName=ko.observable("First Name");
+	self.lastName=ko.observable("Last Name");
+	self.productsi=ko.observableArray(model.products);
+	self.removeItem=function(data){
+		  self.productsi.remove(data);
+		}
+ 	self.addItem=function(){
+		if(self.newName().length>0 && self.lastName().length>0){
+		  self.productsi.push({'name':self.newName(),'lastName':self.lastName()});
+		 }
+		}
+}
+ko.applyBindings(new viewModel());
+$(function(){
+
+});
+</script>
+</html>
